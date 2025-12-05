@@ -1,0 +1,70 @@
+version: '3'
+
+services:
+
+  ai_agents_hospitality-api:
+    build:
+      context: ../ai_agents_hospitality-api
+      dockerfile: Dockerfile
+    image: ai_agents_hospitality-api
+    container_name: ai_agents_hospitality-api
+    ports:
+      - "${API_PORT}:${API_PORT}"
+    depends_on:
+      - bookings-db-data-loader
+    environment:
+      - ENVIRONMENT=development.localcontainer
+      - AI_AGENTIC_API_KEY=${AI_AGENTIC_API_KEY}
+      - API_HOST=${API_HOST}
+      - API_PORT=${API_PORT}
+      - POSTGRES_HOST=${POSTGRES_HOST}
+      - POSTGRES_PORT=${POSTGRES_PORT}
+      - POSTGRES_USER=${POSTGRES_USER}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+      - POSTGRES_DB=${POSTGRES_DB}
+    env_file:
+      - .env
+    networks:
+      - prj_hospitality-network
+
+  bookings-db:
+    image: postgres:15.3
+    container_name: bookings-db
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DB}
+    ports:
+      - "${POSTGRES_PORT}:5432"
+    volumes:
+      - bookings_postgresql-db:/var/lib/postgresql/data
+    env_file:
+      - .env
+    networks:
+      - prj_hospitality-network
+
+  bookings-db-data-loader:
+    image: bookings-db-data-loader
+    container_name: bookings-db-data-loader
+    build:
+      context: ../bookings-db
+      dockerfile: Dockerfile
+    depends_on:
+      - bookings-db
+    networks:
+      - prj_hospitality-network
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DB}
+      DATABASE_CONFIG_LOGGING: "YES"
+    command: ["/app/db/init-db.sh"]
+    env_file:
+      - .env
+
+volumes:
+  bookings_postgresql-db:
+
+networks:
+  prj_hospitality-network:
+    driver: bridge

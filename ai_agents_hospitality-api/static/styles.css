@@ -1,0 +1,209 @@
+* {  
+    margin: 0;  
+    padding: 0;  
+    box-sizing: border-box;  
+}  
+  
+h1, h2, h3, h4, h5, h6 {  
+    margin-top: 20px; /* Adjust as necessary */  
+    margin-bottom: 10px; /* Adjust as necessary */  
+}  
+  
+html, body {  
+    height: 100%;  
+    overflow: hidden; /* Prevents extra scroll */  
+}  
+  
+body {  
+    font-family: 'Helvetica Neue', Arial, sans-serif;  
+    background-color: #e6e6fa; /* Light purple background */  
+    display: flex;  
+    justify-content: center;  
+    align-items: center;  
+    height: 100vh;  
+    margin: 0;  
+    font-size: 12px;  
+}  
+  
+.chat-container {  
+    padding: 20px;  
+    width: 100%;  
+    max-width: 700px;  
+    display: flex;  
+    flex-direction: column;  
+    height: 100%;  
+    background-color: #ffffff; /* White background for the chat container */  
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Shadow */  
+    border-radius: 8px;  
+}  
+  
+h1 {  
+    text-align: center;  
+    color: #333;  
+    margin-bottom: 20px;  
+    font-weight: 500;  
+}  
+  
+.messages-container {  
+    flex: 1;  
+    overflow-y: auto;  
+    border-radius: 8px;  
+    padding: 20px;  
+    background: #ffffff; /* White background for the messages container */  
+    display: flex;  
+    flex-direction: column;  
+    margin-left: 0px;  
+    margin-right: 2em;  
+}  
+  
+form {  
+    display: flex;  
+    margin-top: auto; /* Ensure form stays at the bottom */  
+}  
+  
+input[type="text"] {  
+    flex: 1;  
+    padding: 10px;  
+    border: 1px solid #e0e0e0;  
+    border-radius: 8px;  
+    margin-left: 3em;  
+    margin-right: 10px;  
+    font-size: 12px;  
+    background: #ffffff;  
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);  
+}  
+  
+button {  
+    padding: 10px 20px;  
+    background-color: #6a0dad; /* Purple background */  
+    color: white;  
+    border: none;  
+    border-radius: 8px;  
+    cursor: pointer;  
+    font-size: 12px;  
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);  
+    transition: background-color 0.2s ease;  
+    margin-right: 3em;  
+}  
+  
+button:hover {  
+    background-color: #4b0082; /* Darker purple on hover */  
+}  
+  
+ul {  
+    list-style-type: disc; /* Default bullet points */  
+    padding-left: 20px; /* Add padding to make space for bullets */  
+    margin: 0;  
+    width: 100%;  
+    display: flex;  
+    flex-direction: column;  
+}  
+  
+li {  
+    margin: 5px 0;  
+    padding: 10px;  
+    border-radius: 15px;  
+    max-width: 90%;  
+    word-wrap: break-word;  
+    display: inline-block;  
+    position: relative;  
+}  
+  
+.message-wrapper {  
+    display: flex;  
+    flex-direction: column;  
+    align-items: flex-start;  
+    position: relative;  
+    padding-left: 35px; /* Adjust padding to accommodate the icon */  
+}  
+  
+.user-message-wrapper {  
+    align-items: flex-end;  
+    padding-left: 0; /* Remove padding for user messages */  
+    text-align: left;  
+}  
+  
+.user-message {  
+    background: #6a0dad; /* Purple background */  
+    color: white;  
+    align-self: flex-end;  
+    text-align: left;  
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);  
+}  
+  
+.server-message {  
+    background: #e9ecef;  
+    color: black;  
+    text-align: left;  
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);  
+    margin-bottom: 2px;  
+}  
+  
+.role {  
+    font-size: 10px;  
+    color: #888;  
+    margin-bottom: 0px;  
+    margin-top: 5px;  
+}  
+  
+.icon {  
+    font-size: 10px;  
+    width: 2em;  
+    height: 2em;  
+    background: linear-gradient(135deg, #6e8efb, #a777e3); /* Default gradient */  
+    color: white;  
+    border-radius: 50%;  
+    display: flex;  
+    justify-content: center;  
+    align-items: center;  
+    position: absolute;  
+    bottom: 10px; /* Align with bottom of bubble */  
+    left: 0em; /* Move icon closer to bubble */  
+    transform: translateX(0);  
+}  
+  
+.timestamp {  
+    text-align: center;  
+    background: none;  
+    color: #888;  
+    font-size: 10px;  
+    margin: 10px 0; /* Add some margin for spacing */  
+}
+
+.new_content {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: left;
+    margin-bottom: 20px;
+}
+
+.logo-text-container {
+    display: flex;
+    align-items: center;
+}
+
+.logo-container {
+    margin-right: 20px; /* Espacio entre el logo y el texto */
+}
+
+.responsive-logo {
+    height: 100%;
+    max-height: 50px; /* Ajusta este valor según sea necesario */
+    width: auto;
+}
+
+.text-container .title {
+    font-size: 2em; /* Ajusta este valor según sea necesario */
+    font-weight: bolder;
+    text-align: left;
+    margin: 0; /* Elimina el margen por defecto */
+}
+
+.text-container p {
+    word-wrap: break-word;
+    max-width: 400px; /* Ajusta este valor según sea necesario */
+}
+
+
+

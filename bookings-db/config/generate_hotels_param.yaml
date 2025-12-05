@@ -1,0 +1,116 @@
+num_of_hotels: 5
+process:
+  output_path_hotels: output_files/hotels/
+  output_path_bookings: output_files/bookings/
+peak_season_months:
+  - January
+  - April
+  - May
+  - June
+  - July
+  - August
+  - September
+  - December
+rooms_per_hotel:
+  number:
+    min: 30
+    max: 80
+  floors:
+    min: 1
+    max: 3
+  weight_triple_rooms:
+    min: 10
+    max: 30
+  weight_double_rooms:
+    default: True
+    min: 50
+    max: 70
+  weight_single_rooms:
+    min: 20
+    max: 30
+  weight_premium_rooms:
+    min: 10
+    max: 40
+pricing:
+  single_room_standard_low_season:
+    min: 40
+    max: 80
+  double_room_standard_low_season:
+    min: 50
+    max: 100
+  triple_room_standard_low_season:
+    min: 100
+    max: 150
+  premium_price_increase_percentage:
+    min: 50
+    max: 150
+  reduce_hosts_price_discount_percentage:
+    min: 20
+    max: 30
+  extra_bed_price_increase_percentage:
+    min: 20
+    max: 30
+  peak_season_price_increase_percentage:
+    min: 50
+    max: 100
+  promotion_price_discount_percentage:
+    min: 10
+    max: 30
+hotel_occupancy:
+  booking_year:
+    start: 2025
+    end: 2025
+  current_month: 2025-04
+  forecast_reduction_percentage:
+    - 15
+    - 30
+    - 45
+    - 60
+    - 75
+    - 90
+    - 100
+  occupancy_weight:
+    peak_season:
+      min: 75
+      max: 100
+    off_season:
+      min: 20
+      max: 40
+  meal_plans_weight:
+    room_only:
+      name: "Room Only"
+      min: 10
+      max: 20
+      price_increase_percentage:
+        min: 0
+        max: 0
+    room_and_breakfast:
+      default: True
+      name: "Room and Breakfast"
+      min: 30
+      max: 60
+      price_increase_percentage:
+        min: 10
+        max: 20
+    all_inclusive:
+      name: "All Inclusive"
+      min: 0
+      max: 10
+      price_increase_percentage:
+          min: 100
+          max: 120
+    half_board:
+      name: "Half Board"
+      min: 10
+      max: 30
+      price_increase_percentage:
+        min: 30
+        max: 50
+    full_board:
+      name: "Full Board"
+      min: 10
+      max: 30
+      price_increase_percentage:
+        min: 50
+        max: 70
+

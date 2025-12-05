@@ -1,0 +1,247 @@
+hotel_names:
+  - Obsidian Tower
+  - Royal Sovereign
+  - Grand Victoria
+  - Imperial Crown
+  - Majestic Plaza
+  - Regal Chambers
+  - Sovereign Suites
+  - Chancellor's Retreat
+  - Ambassador's Residence
+  - Viscount's Manor
+  - Duchess's Quarters
+  - Baron's Estate
+  - Noble Abode
+  - Heritage House
+  - Legacy Lodge
+  - Landmark Hotel
+  - Apex Tower
+  - Zenith Point
+  - Meridian Suites
+  - Nexus Hotel
+  - Vertex Residences
+  - Luminary Hotel
+  - Solstice Plaza
+  - Equinox Suites
+  - Azure Retreat
+  - Crimson Manor
+  - Seraphina Hotel
+  - Elysian Suites
+  - Valerian Residences
+  - Avant-Garde Hotel
+  - Emerald Grove
+  - Sapphire Coast
+  - Golden Peak
+  - Silver Stream
+  - Diamond Falls
+  - Crystal Bay
+  - Ivory Dunes
+  - Onyx Cliffs
+  - Amber Forest
+  - Pearl Lagoon
+  - Celestial Heights
+  - Aurora Suites
+  - Stellar Hotel
+  - Lunar Residences
+  - Solar Plaza
+  - Silk Road Hotel
+  - Spice Merchant's Inn
+  - Pharaoh's Palace
+  - Sultan's Oasis
+  - Maharaja's Retreat
+  - Templar's Keep
+  - Alchemist's Lab
+  - Oracle's Gaze
+  - Sphinx's Shadow
+  - Griffin's Nest
+  - Chimera's Lair
+  - Phoenix's Rise
+  - Leviathan's Deep
+  - Kraken's Cove
+  - Siren's Song
+  - Savoy London
+  - Plaza New York
+  - Ritz Paris
+  - Danieli Venice
+  - Raffles Singapore
+  - Peninsula Hong Kong
+  - Claridge's London
+  - Adlon Berlin
+  - Imperial Vienna
+  - Cipriani Venice
+  - Biltmore Los Angeles
+  - Waldorf Astoria New York
+  - Four Seasons
+  - Mandarin Oriental
+  - St. Regis
+  - Pinnacle Hotel
+  - Convergence Suites
+  - Enclave Residences
+  - Sanctuary Hotel
+  - Kaleidoscope Suites
+  - Resonance Hotel
+  - Veridian Plaza
+  - Aether Suites
+  - Chronos Hotel
+  - Epiphany Suites
+  - Caesar's Palace
+  - Cleopatra's Retreat
+  - Apollo's Temple
+  - Athena's Sanctuary
+  - Poseidon's Cove
+  - Diana's Grove
+  - Hercules's Lodge
+  - Venus's Garden
+  - Thor's Hammer
+  - Odin's Hall
+  - Veridian Hotel
+  - Celestia Suites
+  - Aurelian Residences
+  - Seraphina Hotel
+  - Elysium Suites
+  - Valerian Residences
+  - Zephyra Hotel
+  - Lumina Suites
+  - Sylvana Hotel
+  - Theron Suites
+  - Executive Suites
+  - Corporate Plaza
+  - Global Gateway Hotel
+  - Summit Conference Center
+  - Financial District Hotel
+  - Innovation Hub Hotel
+  - Technology Park Hotel
+  - World Trade Center Hotel
+  - International Business Hotel
+  - Convention Center Hotel
+  - Rivendell Hotel
+  - Camelot Suites
+  - Narnia Hotel
+  - Wonderland Suites
+  - Middle Earth Hotel
+  - Hogwarts Hotel
+  - Westeros Suites
+  - Gotham Hotel
+  - Metropolis Suites
+  - Asgard Hotel
+  - Velvet Rope Hotel
+  - Secret Garden Hotel
+  - Hidden Gem Hotel
+  - Art Deco Hotel
+  - Rooftop Garden Hotel
+  - Wine Cellar Hotel
+  - Library Hotel
+  - Chocolate Hotel
+  - Jazz Club Hotel
+  - Speakeasy Hotel
+  - Ocean View Resort
+  - Mountain View Resort
+  - Desert Oasis Resort
+  - Tropical Paradise Resort
+  - Ski Resort
+  - Golf Resort
+  - Spa Resort
+  - All-Inclusive Resort
+  - Family Resort
+  - Adults-Only Resort
+  - Grand Hyatt
+  - JW Marriott
+  - Conrad Hotels & Resorts
+  - InterContinental Hotels & Resorts
+  - Langham Hotels & Resorts
+  - Park Hyatt
+  - Rosewood Hotels & Resorts
+  - Shangri-La Hotels & Resorts
+  - Peninsula Hotels
+  - Ritz-Carlton
+  - W Hotels
+  - Andaz Hotels
+  - Edition Hotels
+  - 21c Museum Hotels
+  - Ace Hotel
+  - Standard Hotels
+  - Mama Shelter Hotels
+  - Generator Hostels
+  - Hoxton Hotels
+  - Line Hotels
+  - Brown Palace Hotel and Spa
+  - Hotel del Coronado
+  - Palmer House a Hilton Hotel
+  - Peabody Memphis
+  - Pfister Hotel
+  - Queen Mary Hotel
+  - Stanley Hotel
+  - US Grant, a Luxury Collection Hotel, San Diego
+  - Waldorf Astoria New York
+  - Willard InterContinental Washington
+  - Aerotel
+  - Hilton Garden Inn
+  - Hyatt Regency
+  - Marriott Hotels & Resorts
+  - Radisson Hotels
+  - Renaissance Hotels
+  - Sheraton Hotels and Resorts
+  - Westin Hotels & Resorts
+  - Wyndham Hotels & Resorts
+  - Aloft Hotels
+  - Bellagio
+  - Caesars Palace
+  - MGM Grand
+  - Venetian Resort Las Vegas
+  - Wynn Las Vegas
+  - Encore at Wynn Las Vegas
+  - Mandalay Bay Resort and Casino
+  - ARIA Resort & Casino
+  - Cosmopolitan of Las Vegas
+  - Paris Las Vegas
+  - Burj Al Arab
+  - Emirates Palace
+  - Plaza Hotel
+  - Ritz Paris
+  - Savoy
+hotel_location:
+  France:
+    - Paris
+    - Nice
+    - Cannes
+booking_guest_location:
+  France:
+    - Paris
+    - Nice
+    - Cannes
+    - Lyon
+  Italy:
+    - Rome
+    - Milan
+    - Venice
+    - Florence
+  Spain:
+    - Madrid
+    - Barcelona
+    - Valencia
+    - Seville
+  Germany:
+    - Berlin
+    - Munich
+    - Hamburg
+    - Frankfurt
+  United Kingdom:
+    - London
+    - Manchester
+    - Birmingham
+    - Edinburgh
+  Netherlands:
+    - Amsterdam
+    - Rotterdam
+    - The Hague
+    - Utrecht
+  Switzerland:
+    - Zurich
+    - Geneva
+    - Basel
+    - Lausanne
+  Austria:
+    - Vienna
+    - Salzburg
+    - Innsbruck
+    - Graz

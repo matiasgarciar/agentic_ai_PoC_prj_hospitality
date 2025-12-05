@@ -1,0 +1,43 @@
+version: '3'
+
+services:
+  bookings-db:
+    image: postgres:15.3
+    container_name: bookings-db
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+    ports:
+      - "${POSTGRES_PORT}:5432"
+    volumes:
+      - bookings_postgresql-db:/var/lib/postgresql/data
+    env_file:
+      - .env
+    networks:
+      - prj_hospitality-network
+
+  bookings-db-data-loader:
+    image: bookings-db-data-loader
+    container_name: bookings-db-data-loader
+    build:
+      context: .
+      dockerfile: Dockerfile
+    depends_on:
+      - bookings-db
+    networks:
+      - prj_hospitality-network
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DB}
+      DATABASE_CONFIG_LOGGING: "YES"
+    command: ["/app/db/init-db.sh"]
+    env_file:
+      - .env
+
+volumes:
+  bookings_postgresql-db:
+
+networks:
+  prj_hospitality-network:
+    driver: bridge

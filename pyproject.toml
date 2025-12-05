@@ -1,0 +1,65 @@
+[build-system]
+requires = ["setuptools>=42.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "ai-agentic-hospitality"
+version = "0.1.0"
+description = "AI Agentic Proof of Concept for Hospitality Industry"
+requires-python = ">=3.10"
+license = {text = "Proprietary"}
+
+dependencies = [
+    # API requirements
+    "jinja2==3.1.6",
+    "pydantic_settings",
+    # AI Agentic framework dependency (update version as needed) Ej: "langchain>=0.1.0",
+    
+    # DB requirements
+    "et_xmlfile==2.0.0",
+    "Faker==36.1.1",
+    "numpy==2.2.3",
+    "openpyxl==3.2.0b1",
+    "pandas>=2.0.0",
+    "python-dateutil==2.9.0.post0",
+    "pytz==2025.1",
+    "PyYAML>=6.0.0",
+    "six==1.17.0",
+    "tzdata==2025.1",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=7.0.0",
+    "pytest-cov>=4.0.0",
+    "ruff>=0.1.0",
+]
+
+[tool.setuptools]
+packages = { find = {} }
+
+[tool.ruff]
+# Longitud máxima de línea (opcional, por defecto es 88)
+line-length = 99
+
+[tool.ruff.lint]
+# Selecciona los grupos de reglas que quieres activar.
+# E, F: pyflakes (errores, fundamental)
+# W: pycodestyle (advertencias de estilo)
+# I: isort (ordenación de imports)
+# UP: pyupgrade (sintaxis moderna)
+# B: flake8-bugbear (posibles bugs)
+select = ["E", "F", "W", "I", "UP", "B"]
+
+# Aquí puedes añadir reglas específicas que quieras ignorar.
+# ignore = ["E501"] # Ejemplo para ignorar errores de línea demasiado larga
+
+[tool.ruff.format]
+# Configuración del formateador (opcional)
+# Usa comillas dobles en lugar de simples.
+quote-style = "double"
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+python_files = "test_*.py"
+python_functions = "test_*"

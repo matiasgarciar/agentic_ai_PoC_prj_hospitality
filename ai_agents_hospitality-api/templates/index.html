@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en" xml:lang="en">
+<head>
+    <title>AI Hospitality Workshop</title>
+    <link rel="stylesheet" href="/static/styles.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/markdown-it/12.3.2/markdown-it.min.js"></script>
+</head>
+<body>
+    <div class="chat-container">
+        <div class="new_content">
+            <div class="logo-text-container">
+                <div class="logo-container">
+                    <img src="/static/acc_logo.png" alt="ACC Logo" class="responsive-logo">
+                </div>
+                <div class="text-container">
+                    <p class="title">AI Hospitality Workshop</p>
+                    <p>Welcome to the LangChain workshop starter. This is a demo with hardcoded responses.</p>
+                </div>
+            </div>
+        </div>
+
+        <div id="messages-container" class="messages-container">
+            <ul id="messages"></ul>
+        </div>
+        <form onsubmit="sendMessage(event)">
+            <input type="text" id="messageText" placeholder="Try: 'list the hotels in France'..." autocomplete="off">
+            <button type="submit">Send</button>
+        </form>
+    </div>
+    <script src="/static/scripts.js"></script>
+</body>
+</html>
+
+
+
