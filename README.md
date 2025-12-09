@@ -393,7 +393,7 @@ To get the most out of this project and workshop, familiarity with the following
 
 | Service | Purpose | How to Obtain |
 |---------|---------|---------------|
-| **OpenAI API Key** | Powers the LangChain AI agents | [OpenAI Platform](https://platform.openai.com/api-keys) |
+| **Google Gemini API Key** | Powers the LangChain AI agents | [Google AI Studio](https://makersuite.google.com/app/apikey) |
 
-> ⚠️ **Note**: An OpenAI API or equivalent key with available credits is required to run the AI agents. The workshop exercises will make API calls that consume credits.
+> ⚠️ **Note**: A Google Gemini API key with available credits is required to run the AI agents. The workshop exercises will make API calls that consume credits.
 

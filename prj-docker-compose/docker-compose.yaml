@@ -14,7 +14,7 @@ services:
       - bookings-db-data-loader
     environment:
       - ENVIRONMENT=development.localcontainer
-      - AI_AGENTIC_API_KEY=${AI_AGENTIC_API_KEY_WKSP_HOSPITALITY}
+      - AI_AGENTIC_API_KEY=${AI_AGENTIC_API_KEY}
       - API_HOST=${API_HOST}
       - API_PORT=${API_PORT}
       - POSTGRES_HOST=${POSTGRES_HOST}
