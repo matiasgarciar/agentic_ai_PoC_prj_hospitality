@@ -4,10 +4,16 @@
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 cd "$SCRIPT_DIR/prj-docker-compose" || { echo "Error: Cannot change to prj-docker compose directory"; exit 1; }
 
+# Determine docker compose command: prefer `docker compose`, fall back to `docker-compose`
+DOCKER_COMPOSE_CMD="docker compose"
+if ! $DOCKER_COMPOSE_CMD version >/dev/null 2>&1; then
+  DOCKER_COMPOSE_CMD="docker-compose"
+fi
+
 # Function to check if containers are running
 check_running_containers() {
   # Check for running containers from docker compose.yaml
-  local running_services=$(docker compose ps --services --filter "status=running" 2>/dev/null)
+  local running_services=$($DOCKER_COMPOSE_CMD ps --services --filter "status=running" 2>/dev/null)
   local running_containers=0
   
   if [ -n "$running_services" ]; then
@@ -199,14 +205,14 @@ fi
 # Configure docker compose command according to parameters
 if [ "$BUILD_NOCACHE" = true ]; then
   echo "Building containers without cache..."
-  docker compose build --no-cache
-  docker compose up -d
+  $DOCKER_COMPOSE_CMD build --no-cache
+  $DOCKER_COMPOSE_CMD up -d
 elif [ -n "$BUILD_FLAG" ]; then
   echo "Building containers with cache..."
-  docker compose up -d --build
+  $DOCKER_COMPOSE_CMD up -d --build
 else
   echo "Starting containers..."
-  docker compose up -d
+  $DOCKER_COMPOSE_CMD up -d
 fi
 
 # Only work with logs if the parameter was specified
@@ -265,7 +271,7 @@ if [ "$CAPTURE_LOGS" = true ]; then
     # Use docker compose logs but pipe through a process that adds colors
     # We'll use docker compose logs and then add colored prefixes manually
     # This ensures colors are always present
-    docker compose logs -f 2>/dev/null | while IFS= read -r line || [ -n "$line" ]; do
+    $DOCKER_COMPOSE_CMD logs -f 2>/dev/null | while IFS= read -r line || [ -n "$line" ]; do
       # Add ANSI color codes based on service name (matching docker compose behavior)
       colored_line="$line"
       if [[ "$line" =~ ^(ai_agents_hospitality-api[[:space:]]+\|) ]]; then
@@ -321,7 +327,7 @@ echo "   User: ${POSTGRES_USER:-postgres}"
 
 echo ""
 echo "📊 Container Status:"
-docker compose ps
+$DOCKER_COMPOSE_CMD ps
 
 # Check service health
 check_service_health

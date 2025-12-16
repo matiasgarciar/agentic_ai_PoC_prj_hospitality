@@ -119,7 +119,14 @@ def load_hotel_data() -> Tuple[dict, str]:
     with open(hotel_details_file, 'r', encoding='utf-8') as f:
         _hotel_details_text = f.read()
     
-    logger.info(f"Successfully loaded hotel data ({len(_hotels_data.get('hotels', []))} hotels)")
+    # Support both 'hotels' and 'Hotels' keys in generated JSON (case variations)
+    if isinstance(_hotels_data, dict):
+        hotels_list = _hotels_data.get('hotels') or _hotels_data.get('Hotels') or _hotels_data.get('HOTELS')
+    else:
+        hotels_list = _hotels_data
+
+    num_hotels = len(hotels_list) if hotels_list else 0
+    logger.info(f"Successfully loaded hotel data ({num_hotels} hotels)")
     
     return _hotels_data, _hotel_details_text
 
@@ -264,6 +271,10 @@ async def handle_hotel_query_simple(user_query: str) -> str:
     """
     # Run the synchronous function in a thread pool to avoid blocking
     loop = asyncio.get_event_loop()
-    response = await loop.run_in_executor(None, answer_hotel_question, user_query)
-    return response
+    try:
+        response = await loop.run_in_executor(None, answer_hotel_question, user_query)
+        return response
+    except Exception as e:
+        logger.exception("handle_hotel_query_simple failed")
+        return f"Error processing query: {str(e)}"
 
