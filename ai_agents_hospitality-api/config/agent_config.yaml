@@ -5,11 +5,14 @@
 
 agent:
   # LLM Provider: "gemini" or "openai"
-  provider: "gemini"
+  provider: "openai"
   
   # Model name
-  model: "gemini-2.5-flash-lite"
+  model: "gpt-4o-mini"
   
   # Temperature (0.0 to 1.0)
   temperature: 0
+
+  # NEW: agent mode
+  mode: "sql"   # simple | rag | sql
 

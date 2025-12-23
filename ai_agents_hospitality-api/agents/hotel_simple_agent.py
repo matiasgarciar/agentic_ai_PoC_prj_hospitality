@@ -21,11 +21,9 @@ except ImportError:
     # Fallback to old structure (v0.1)
     from langchain.prompts import ChatPromptTemplate
 
-try:
-    from langchain_google_genai import ChatGoogleGenerativeAI
-except ImportError:
-    # Fallback to community package if google_genai not available
-    from langchain_community.chat_models import ChatGoogleGenerativeAI
+
+from langchain_openai import ChatOpenAI
+
 
 # Import ChatOpenAI for proxy/custom endpoint support
 try:
@@ -147,24 +145,15 @@ def _create_agent_chain():
     config = get_agent_config()
     
     # Create LLM instance based on provider and configuration
-    if config.provider == "openai":
-        # Standard OpenAI API
-        if not ChatOpenAI:
-            raise ImportError("langchain_openai is required for OpenAI provider. Install with: pip install langchain-openai")
-        llm = ChatOpenAI(
-            model=config.model,
-            temperature=config.temperature,
-            api_key=config.api_key
-        )
-        logger.info(f"Using OpenAI API with model: {config.model}")
-    else:
-        # Standard Gemini API usage
-        llm = ChatGoogleGenerativeAI(
-            model=config.model,
-            temperature=config.temperature,
-            google_api_key=config.api_key
-        )
-        logger.info(f"Using Gemini API with model: {config.model}")
+    
+    llm = ChatOpenAI(
+        model=config.model,
+        temperature=config.temperature,
+        api_key=config.api_key
+    )
+    
+    logger.info(f"Using OpenAI API with model: {config.model}")
+
     
     # Create prompt template
     prompt_template = ChatPromptTemplate.from_messages([

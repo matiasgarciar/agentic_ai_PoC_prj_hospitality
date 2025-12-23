@@ -21,6 +21,19 @@ from fastapi.templating import Jinja2Templates
 
 from util.logger_config import logger
 from util.configuration import settings, PROJECT_ROOT
+from config.agent_config import get_agent_config
+from agents.hotel_rag_agent import answer_hotel_question_rag
+
+import asyncio
+
+from datetime import date
+import calendar
+from agents.booking_sql_agent import (
+    answer_booking_question_sql,
+    kpi_occupancy_rate,
+    kpi_revpar,
+)
+
 
 # Import Exercise 0 agent
 EXERCISE_0_AVAILABLE = False
@@ -130,6 +143,7 @@ Difference: €100/night (35.7% discount in off season)""",
 }
 
 
+
 def find_matching_response(query: str) -> str:
     """
     Find a matching hardcoded response based on the query.
@@ -169,6 +183,100 @@ Try asking questions about:
 Example: "list the hotels in France" or "tell me the prices for triple premium rooms in Paris"
 
 *This is a workshop starter - implement your LangChain agent here!*"""
+
+HOTELS = ["Imperial Crown", "Grand Victoria", "Majestic Plaza", "Royal Sovereign", "Obsidian Tower"]
+
+def extract_hotel(query: str):
+    q = query.lower()
+    for h in HOTELS:
+        if h.lower() in q:
+            return h
+    return None
+
+def parse_period(query: str):
+    q = query.lower().strip()
+
+    # Quarter: Q1 2025
+    m = re.search(r"\bq([1-4])\s*(20\d{2})\b", q)
+    if m:
+        quarter = int(m.group(1))
+        year = int(m.group(2))
+        start_month = 1 + (quarter - 1) * 3
+        end_month = start_month + 2
+        start = date(year, start_month, 1)
+        last_day = calendar.monthrange(year, end_month)[1]
+        end = date(year, end_month, last_day)
+        end = date.fromordinal(end.toordinal() + 1)  # +1 day => [start, end)
+        days = (end - start).days
+        return start, end, days
+
+    # Month: January 2025
+    months = {
+        "january": 1, "february": 2, "march": 3, "april": 4,
+        "may": 5, "june": 6, "july": 7, "august": 8,
+        "september": 9, "october": 10, "november": 11, "december": 12,
+    }
+    for name, month in months.items():
+        if name in q:
+            y = re.search(r"\b(20\d{2})\b", q)
+            if not y:
+                return None
+            year = int(y.group(1))
+            start = date(year, month, 1)
+            # next month
+            if month == 12:
+                end = date(year + 1, 1, 1)
+            else:
+                end = date(year, month + 1, 1)
+            days = (end - start).days
+            return start, end, days
+
+    return None
+
+
+async def handle_booking_query_sql(user_query: str) -> str:
+    q = user_query.lower()
+
+    wants_occupancy = "occupancy" in q
+    wants_revpar = "revpar" in q
+
+    if wants_occupancy or wants_revpar:
+        period = parse_period(user_query)
+        if not period:
+            return "Please specify a period like 'January 2025' or 'Q1 2025'."
+
+        start, end, days = period
+        start_s = start.isoformat()
+        end_s = end.isoformat()
+
+        by_hotel = ("by hotel" in q) or ("across all hotels" in q) or ("all hotels" in q)
+
+        if by_hotel:
+            lines = []
+            for h in HOTELS:
+                if wants_occupancy:
+                    val = kpi_occupancy_rate(h, start_s, end_s, days)
+                    lines.append(f"{h}: {val:.2f}%")
+                else:
+                    val = kpi_revpar(h, start_s, end_s, days)
+                    lines.append(f"{h}: {val:.2f}")
+            title = "Occupancy rate" if wants_occupancy else "RevPAR"
+            return f"{title} by hotel for {start_s} to {end_s}:\n" + "\n".join(lines)
+
+        hotel = extract_hotel(user_query)
+        if not hotel:
+            return "Please specify the hotel name (e.g., Imperial Crown, Grand Victoria, Majestic Plaza, Royal Sovereign, Obsidian Tower)."
+
+        if wants_occupancy:
+            val = kpi_occupancy_rate(hotel, start_s, end_s, days)
+            return f"Occupancy rate for {hotel} from {start_s} to {end_s}: {val:.2f}%"
+
+        val = kpi_revpar(hotel, start_s, end_s, days)
+        return f"RevPAR for {hotel} from {start_s} to {end_s}: {val:.2f}"
+
+    # Non-KPI -> use SQL agent
+    loop = asyncio.get_event_loop()
+    return await loop.run_in_executor(None, answer_booking_question_sql, user_query)
 
 
 @asynccontextmanager
@@ -232,21 +340,32 @@ async def websocket_endpoint(websocket: WebSocket, uuid: str):
                 except json.JSONDecodeError:
                     user_query = data
                 
-                # Get response from Exercise 0 agent or fallback to hardcoded
-                if EXERCISE_0_AVAILABLE:
-                    try:
+                # Select agent based on configuration
+                try:
+                    agent_config = get_agent_config()
+                    logger.info(f"Routing with mode={agent_config.mode}")
+
+                    if agent_config.mode == "sql":
+                        logger.info(f"Using Exercise 2 (SQL) agent for query: {user_query[:100]}.")
+                        response_content = await handle_booking_query_sql(user_query)
+
+                    elif agent_config.mode == "rag":
+                        logger.info(f"Using Exercise 1 (RAG) agent for query: {user_query[:100]}...")
+                        response_content = answer_hotel_question_rag(user_query)
+
+                    elif EXERCISE_0_AVAILABLE:
                         logger.info(f"Using Exercise 0 agent for query: {user_query[:100]}...")
                         response_content = await handle_hotel_query_simple(user_query)
-                        logger.info(f"✅ Exercise 0 agent response generated successfully for {uuid}")
-                    except Exception as e:
-                        logger.error(f"❌ Error in Exercise 0 agent: {e}", exc_info=True)
-                        logger.warning(f"Falling back to hardcoded response for {uuid}")
+
+                    else:
+                        logger.warning("No agent available, falling back to hardcoded response")
                         response_content = find_matching_response(user_query)
-                else:
-                    # Fallback to hardcoded responses
-                    logger.debug(f"Using hardcoded responses (Exercise 0 not available) for {uuid}")
+
+                except Exception as e:
+                    logger.error(f"❌ Error while processing query: {e}", exc_info=True)
+                    logger.warning("Falling back to hardcoded response")
                     response_content = find_matching_response(user_query)
-                
+
                 # Send response back to client
                 agent_message = {
                     "role": "assistant",
@@ -287,6 +406,3 @@ if __name__ == "__main__":
     
     logger.info(f"Starting server on {settings.API_HOST}:{settings.API_PORT}")
     uvicorn.run("main:app", host=settings.API_HOST, port=settings.API_PORT, reload=True)
-
-
-
