@@ -16,3 +16,4 @@ langchain-community>=0.2.0
 
 psycopg2-binary>=2.9.9
 
+chromadb==0.5.5

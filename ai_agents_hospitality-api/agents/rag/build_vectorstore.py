@@ -1,42 +1,54 @@
 import os
-from langchain_community.document_loaders import TextLoader
-from langchain_text_splitters import RecursiveCharacterTextSplitter
+import chromadb
+
 from langchain_openai import OpenAIEmbeddings
 from langchain_community.vectorstores import Chroma
+from langchain_text_splitters import RecursiveCharacterTextSplitter
+from langchain_core.documents import Document
 
-DATA_DIR = "../../../bookings-db/output_files/hotels"
-PERSIST_DIR = "./vectorstore"
 
+def load_docs():
+    base = os.path.join(os.path.dirname(__file__), "..", "..", "data", "hotels")
+    hotels_json = os.path.join(base, "hotels.json")
+    details_md = os.path.join(base, "hotel_details.md")
 
-def load_documents():
     docs = []
-    for fname in os.listdir(DATA_DIR):
-        if fname.endswith(".md"):
-            loader = TextLoader(os.path.join(DATA_DIR, fname), encoding="utf-8")
-            docs.extend(loader.load())
+    if os.path.exists(hotels_json):
+        with open(hotels_json, "r", encoding="utf-8") as f:
+            docs.append(Document(page_content=f.read(), metadata={"source": "hotels.json"}))
+    if os.path.exists(details_md):
+        with open(details_md, "r", encoding="utf-8") as f:
+            docs.append(Document(page_content=f.read(), metadata={"source": "hotel_details.md"}))
     return docs
 
 
 def main():
-    documents = load_documents()
-    if not documents:
-        raise RuntimeError(f"No .md documents found in {DATA_DIR}")
+    chroma_host = os.getenv("CHROMA_HOST", "localhost")
+    chroma_port = int(os.getenv("CHROMA_PORT", "8000"))
+    collection_name = os.getenv("CHROMA_COLLECTION", "hotels")
 
-    splitter = RecursiveCharacterTextSplitter(
-        chunk_size=1000,
-        chunk_overlap=150,
+    client = chromadb.HttpClient(host=chroma_host, port=chroma_port)
+
+    embeddings = OpenAIEmbeddings()
+    splitter = RecursiveCharacterTextSplitter(chunk_size=1200, chunk_overlap=150)
+
+    docs = load_docs()
+    splits = splitter.split_documents(docs)
+
+    # Rebuild cleanly
+    try:
+        client.delete_collection(collection_name)
+    except Exception:
+        pass
+
+    vs = Chroma(
+        client=client,
+        collection_name=collection_name,
+        embedding_function=embeddings,
     )
-    chunks = splitter.split_documents(documents)
+    vs.add_documents(splits)
 
-    embeddings = OpenAIEmbeddings(chunk_size=64)
-
-    Chroma.from_documents(
-        documents=chunks,
-        embedding=embeddings,
-        persist_directory=PERSIST_DIR,
-    )
-
-    print(f"✅ Vectorstore created with {len(chunks)} chunks at {PERSIST_DIR}")
+    print(f"✅ Indexed {len(splits)} chunks into collection '{collection_name}' on {chroma_host}:{chroma_port}")
 
 
 if __name__ == "__main__":

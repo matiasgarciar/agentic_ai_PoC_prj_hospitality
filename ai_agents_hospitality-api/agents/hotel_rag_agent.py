@@ -28,17 +28,22 @@ _rag_chain = None
 
 
 def _get_retriever():
-    if not os.path.isdir(VECTORSTORE_DIR):
-        raise FileNotFoundError(
-            f"Vectorstore not found at {VECTORSTORE_DIR}. "
-            "Run: python ai_agents_hospitality-api/agents/rag/build_vectorstore.py"
-        )
+    import chromadb
 
     embeddings = OpenAIEmbeddings(chunk_size=64)
+
+    chroma_host = os.getenv("CHROMA_HOST", "localhost")
+    chroma_port = int(os.getenv("CHROMA_PORT", "8000"))
+    collection_name = os.getenv("CHROMA_COLLECTION", "hotels")
+
+    client = chromadb.HttpClient(host=chroma_host, port=chroma_port)
+
     vs = Chroma(
-        persist_directory=VECTORSTORE_DIR,
+        client=client,
+        collection_name=collection_name,
         embedding_function=embeddings,
     )
+
     return vs.as_retriever(search_kwargs={"k": 4})
 
 
