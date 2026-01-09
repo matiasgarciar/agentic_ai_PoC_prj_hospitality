@@ -53,6 +53,9 @@ env/
 env.bak/
 venv.bak/
 .python-version
+.env
+prj-docker-compose/.env
+**/.env
 
 # JetBrains / PyCharm
 .idea/
@@ -115,3 +118,5 @@ doctrees/
 
 # Project specific
 logs/
+bookings-db/output_files/
+.env

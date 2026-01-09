@@ -67,7 +67,13 @@ except Exception as e:
 print("\n4️⃣  Checking hotel data loading...")
 try:
     hotels_data, hotel_details = load_hotel_data()
-    num_hotels = len(hotels_data.get('hotels', []))
+    # Support both 'hotels' and 'Hotels' keys (case variations) in JSON
+    if isinstance(hotels_data, dict):
+        hotels_list = hotels_data.get('hotels') or hotels_data.get('Hotels') or hotels_data.get('HOTELS')
+    else:
+        hotels_list = hotels_data
+
+    num_hotels = len(hotels_list) if hotels_list else 0
     print(f"   ✅ Hotel data loaded successfully ({num_hotels} hotels)")
 except FileNotFoundError as e:
     print(f"   ❌ Hotel data files not found: {e}")

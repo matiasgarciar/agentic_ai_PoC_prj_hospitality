@@ -25,6 +25,7 @@ class AgentConfig:
     model: str = "gemini-2.5-flash-lite"
     temperature: float = 0.0
     api_key: str = ""
+    mode: str = "simple"  # "simple", "rag", or "sql"
     
     def __post_init__(self):
         """Validate configuration after initialization."""
@@ -36,6 +37,10 @@ class AgentConfig:
         
         if self.temperature < 0.0 or self.temperature > 1.0:
             raise ValueError(f"Temperature must be between 0.0 and 1.0, got {self.temperature}")
+        
+        if self.mode not in ["simple", "rag", "sql"]:
+            raise ValueError(f"Invalid mode: {self.mode}. Must be 'simple', 'rag' or 'sql'")
+
 
 
 def _load_config_file() -> dict:
@@ -97,10 +102,14 @@ def get_agent_config() -> AgentConfig:
     provider = agent_config.get("provider", "gemini")
     model = agent_config.get("model", "gemini-2.5-flash-lite")
     temperature = agent_config.get("temperature", 0.0)
+    mode = agent_config.get("mode", "simple")
+
     
     # Override with environment variables (if set)
     provider = _get_env_value("AI_AGENTIC_PROVIDER", provider)
     model = _get_env_value("AI_AGENTIC_MODEL", model)
+    mode = _get_env_value("AI_AGENTIC_MODE", mode)
+
     
     temp_str = _get_env_value("AI_AGENTIC_TEMPERATURE")
     if temp_str is not None:
@@ -118,10 +127,12 @@ def get_agent_config() -> AgentConfig:
         provider=provider,
         model=model,
         temperature=temperature,
-        api_key=api_key or ""  # Empty string if not set (will be validated in __post_init__)
+        api_key=api_key or "",
+        mode=mode
     )
+
     
-    logger.info(f"Agent configuration loaded: provider={provider}, model={model}, temperature={temperature}")
+    logger.info(f"Agent configuration loaded: provider={provider}, model={model}, temperature={temperature}, mode={mode}")
     
     return config
 

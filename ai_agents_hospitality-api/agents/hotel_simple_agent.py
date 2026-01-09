@@ -21,11 +21,9 @@ except ImportError:
     # Fallback to old structure (v0.1)
     from langchain.prompts import ChatPromptTemplate
 
-try:
-    from langchain_google_genai import ChatGoogleGenerativeAI
-except ImportError:
-    # Fallback to community package if google_genai not available
-    from langchain_community.chat_models import ChatGoogleGenerativeAI
+
+from langchain_openai import ChatOpenAI
+
 
 # Import ChatOpenAI for proxy/custom endpoint support
 try:
@@ -119,7 +117,14 @@ def load_hotel_data() -> Tuple[dict, str]:
     with open(hotel_details_file, 'r', encoding='utf-8') as f:
         _hotel_details_text = f.read()
     
-    logger.info(f"Successfully loaded hotel data ({len(_hotels_data.get('hotels', []))} hotels)")
+    # Support both 'hotels' and 'Hotels' keys in generated JSON (case variations)
+    if isinstance(_hotels_data, dict):
+        hotels_list = _hotels_data.get('hotels') or _hotels_data.get('Hotels') or _hotels_data.get('HOTELS')
+    else:
+        hotels_list = _hotels_data
+
+    num_hotels = len(hotels_list) if hotels_list else 0
+    logger.info(f"Successfully loaded hotel data ({num_hotels} hotels)")
     
     return _hotels_data, _hotel_details_text
 
@@ -140,24 +145,15 @@ def _create_agent_chain():
     config = get_agent_config()
     
     # Create LLM instance based on provider and configuration
-    if config.provider == "openai":
-        # Standard OpenAI API
-        if not ChatOpenAI:
-            raise ImportError("langchain_openai is required for OpenAI provider. Install with: pip install langchain-openai")
-        llm = ChatOpenAI(
-            model=config.model,
-            temperature=config.temperature,
-            api_key=config.api_key
-        )
-        logger.info(f"Using OpenAI API with model: {config.model}")
-    else:
-        # Standard Gemini API usage
-        llm = ChatGoogleGenerativeAI(
-            model=config.model,
-            temperature=config.temperature,
-            google_api_key=config.api_key
-        )
-        logger.info(f"Using Gemini API with model: {config.model}")
+    
+    llm = ChatOpenAI(
+        model=config.model,
+        temperature=config.temperature,
+        api_key=config.api_key
+    )
+    
+    logger.info(f"Using OpenAI API with model: {config.model}")
+
     
     # Create prompt template
     prompt_template = ChatPromptTemplate.from_messages([
@@ -264,6 +260,10 @@ async def handle_hotel_query_simple(user_query: str) -> str:
     """
     # Run the synchronous function in a thread pool to avoid blocking
     loop = asyncio.get_event_loop()
-    response = await loop.run_in_executor(None, answer_hotel_question, user_query)
-    return response
+    try:
+        response = await loop.run_in_executor(None, answer_hotel_question, user_query)
+        return response
+    except Exception as e:
+        logger.exception("handle_hotel_query_simple failed")
+        return f"Error processing query: {str(e)}"
 
