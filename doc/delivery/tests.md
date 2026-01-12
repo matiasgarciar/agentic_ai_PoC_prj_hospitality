@@ -118,4 +118,3 @@ Resultados observados:
 ⚠️ La query de descuento por cama extra no existe en los datos (comportamiento esperado)
 
 El sistema se considera **válido y estable para la entrega**.
-

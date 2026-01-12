@@ -75,127 +75,127 @@ When you complete a task, reference the commit like this:
 ### Exercise 0: Simple Agentic Assistant with File Context
 
 #### Phase 1: Setup & Data Preparation
-- [ ] Install LangChain dependencies (`langchain`, `langchain-google-genai`)
-- [ ] Configure Google Gemini API key as environment variable (`AI_AGENTIC_API_KEY`)
-- [ ] Generate synthetic hotel data (3 hotels) using `gen_synthetic_hotels.py`
-- [ ] Verify hotel files are created in `bookings-db/output_files/hotels/`
+- [x] Install LangChain dependencies (`langchain`, `langchain-google-genai`)
+- [x] Configure Google Gemini API key as environment variable (`AI_AGENTIC_API_KEY`)
+- [x] Generate synthetic hotel data (3 hotels) using `gen_synthetic_hotels.py`
+- [x] Verify hotel files are created in `bookings-db/output_files/hotels/`
 
 #### Phase 2: Core Implementation
-- [ ] Create function to load hotel JSON file (`hotels.json`)
-- [ ] Create function to load hotel details markdown (`hotel_details.md`)
-- [ ] Implement `answer_hotel_question()` function with file context
-- [ ] Create ChatPromptTemplate with system prompt for hotel assistant
-- [ ] Build LangChain chain (prompt template + LLM)
+- [x] Create function to load hotel JSON file (`hotels.json`)
+- [x] Create function to load hotel details markdown (`hotel_details.md`)
+- [x] Implement `answer_hotel_question()` function with file context
+- [x] Create ChatPromptTemplate with system prompt for hotel assistant
+- [x] Build LangChain chain (prompt template + LLM)
 
 #### Phase 3: Integration & Testing
-- [ ] Create `handle_hotel_query_simple()` async function for WebSocket API
-- [ ] Test with basic queries (hotel names, addresses, locations)
-- [ ] Test with meal plan queries
-- [ ] Test with room information queries
-- [ ] Verify error handling works correctly
+- [x] Create `handle_hotel_query_simple()` async function for WebSocket API
+- [x] Test with basic queries (hotel names, addresses, locations)
+- [x] Test with meal plan queries
+- [x] Test with room information queries
+- [x] Verify error handling works correctly
 
 #### Phase 4: Documentation & Cleanup
-- [ ] Add code comments and docstrings
-- [ ] Test integration with WebSocket API endpoint
-- [ ] Verify responses are properly formatted
+- [x] Add code comments and docstrings
+- [x] Test integration with WebSocket API endpoint
+- [x] Verify responses are properly formatted
 
 ---
 
 ### Exercise 1: Hotel Details with RAG
 
 #### Phase 1: Setup & Data Preparation
-- [ ] Install RAG dependencies (`langchain-community`, `chromadb`)
-- [ ] Generate full hotel dataset (50 hotels) using `gen_synthetic_hotels.py`
-- [ ] Verify all hotel files are created (JSON, markdown files)
+- [x] Install RAG dependencies (`langchain-community`, `chromadb`)
+- [x] Generate full hotel dataset (50 hotels) using `gen_synthetic_hotels.py`
+- [x] Verify all hotel files are created (JSON, markdown files)
 
 #### Phase 2: Vector Store Creation
-- [ ] Implement document loader for `hotels.json` (JSONLoader)
-- [ ] Implement document loader for `hotel_details.md` (TextLoader)
-- [ ] Implement document loader for `hotel_rooms.md` (TextLoader)
-- [ ] Configure RecursiveCharacterTextSplitter (chunk_size=1000, overlap=200)
-- [ ] Create GoogleGenerativeAIEmbeddings instance
-- [ ] Build ChromaDB vector store from all documents
-- [ ] Persist vector store to disk for reuse
+- [x] Implement document loader for `hotels.json` (JSONLoader)
+- [x] Implement document loader for `hotel_details.md` (TextLoader)
+- [x] Implement document loader for `hotel_rooms.md` (TextLoader)
+- [x] Configure RecursiveCharacterTextSplitter (chunk_size=1000, overlap=200)
+- [x] Create GoogleGenerativeAIEmbeddings instance
+- [x] Build ChromaDB vector store from all documents
+- [x] Persist vector store to disk for reuse
 
 #### Phase 3: RAG Chain Implementation
-- [ ] Create ChatGoogleGenerativeAI LLM instance (gemini-2.5-flash-lite, temperature=0)
-- [ ] Implement RetrievalQA chain with vector store
-- [ ] Design system prompt for hotel assistant context
-- [ ] Configure retrieval parameters (k=5 documents)
-- [ ] Test retrieval quality with sample queries
+- [x] Create ChatGoogleGenerativeAI LLM instance (gemini-2.5-flash-lite, temperature=0)
+- [x] Implement RetrievalQA chain with vector store
+- [x] Design system prompt for hotel assistant context
+- [x] Configure retrieval parameters (k=5 documents)
+- [x] Test retrieval quality with sample queries
 
 #### Phase 4: Agent Implementation
-- [ ] Create hotel details agent function
-- [ ] Implement query preprocessing (normalization, validation)
-- [ ] Add response formatting (markdown structure)
-- [ ] Handle edge cases (no results, ambiguous queries)
+- [x] Create hotel details agent function
+- [x] Implement query preprocessing (normalization, validation)
+- [x] Add response formatting (markdown structure)
+- [x] Handle edge cases (no results, ambiguous queries)
 
 #### Phase 5: Integration & Testing
-- [ ] Integrate RAG agent with WebSocket API
-- [ ] Test with hotel location queries
-- [ ] Test with meal plan and pricing queries
-- [ ] Test with room comparison queries
-- [ ] Verify performance (response time < 10s)
-- [ ] Compare results with Exercise 0 (should be more accurate)
+- [x] Integrate RAG agent with WebSocket API
+- [x] Test with hotel location queries
+- [x] Test with meal plan and pricing queries
+- [x] Test with room comparison queries
+- [x] Verify performance (response time < 10s)
+- [x] Compare results with Exercise 0 (should be more accurate)
 
 #### Phase 6: Optimization
-- [ ] Tune chunk size and overlap if needed
-- [ ] Optimize retrieval k parameter
-- [ ] Add caching for frequent queries (optional)
-- [ ] Document vector store persistence strategy
+- [x] Tune chunk size and overlap if needed
+- [x] Optimize retrieval k parameter
+- [x] Add caching for frequent queries (optional)
+- [x] Document vector store persistence strategy
 
 ---
 
 ### Exercise 2: Booking Analytics with SQL Agent
 
 #### Phase 1: Setup & Database Connection
-- [ ] Start PostgreSQL database using `./start-app.sh --no_ai_agent`
-- [ ] Install SQL dependencies (`langchain-community`, `psycopg2-binary`)
-- [ ] Verify database connection (test connection string)
-- [ ] Inspect database schema and understand table structure
-- [ ] Load sample booking data to test queries
+- [x] Start PostgreSQL database using `./start-app.sh --no_ai_agent`
+- [x] Install SQL dependencies (`langchain-community`, `psycopg2-binary`)
+- [x] Verify database connection (test connection string)
+- [x] Inspect database schema and understand table structure
+- [x] Load sample booking data to test queries
 
 #### Phase 2: SQL Database Integration
-- [ ] Create SQLDatabase instance from connection URI
-- [ ] Test basic SQL queries manually (SELECT, COUNT, SUM)
-- [ ] Verify database schema introspection works
-- [ ] Test date filtering and aggregation queries
+- [x] Create SQLDatabase instance from connection URI
+- [x] Test basic SQL queries manually (SELECT, COUNT, SUM)
+- [x] Verify database schema introspection works
+- [x] Test date filtering and aggregation queries
 
 #### Phase 3: SQL Agent Implementation
-- [ ] Create SQLDatabaseToolkit with database and LLM
-- [ ] Implement create_sql_agent with proper system prompt
-- [ ] Configure agent for hospitality context (hotel names, dates, metrics)
-- [ ] Add custom system prompt explaining booking schema
-- [ ] Test agent with simple queries (booking counts)
+- [x] Create SQLDatabaseToolkit with database and LLM
+- [x] Implement create_sql_agent with proper system prompt
+- [x] Configure agent for hospitality context (hotel names, dates, metrics)
+- [x] Add custom system prompt explaining booking schema
+- [x] Test agent with simple queries (booking counts)
 
 #### Phase 4: Analytics Calculations
-- [ ] Implement bookings count query logic
-- [ ] Implement occupancy rate calculation (two-step: query + formula)
-- [ ] Implement total revenue aggregation
-- [ ] Implement RevPAR calculation (revenue / available room-nights)
-- [ ] Handle edge cases (no bookings, division by zero)
+- [x] Implement bookings count query logic
+- [x] Implement occupancy rate calculation (two-step: query + formula)
+- [x] Implement total revenue aggregation
+- [x] Implement RevPAR calculation (revenue / available room-nights)
+- [x] Handle edge cases (no bookings, division by zero)
 
 #### Phase 5: Two-Step Query Process
-- [ ] Implement Step 1: Generate SQL from natural language
-- [ ] Implement Step 2: Execute query and format results
-- [ ] Add query validation before execution
-- [ ] Implement result formatting (tables, markdown)
-- [ ] Add error handling for SQL syntax errors
+- [x] Implement Step 1: Generate SQL from natural language
+- [x] Implement Step 2: Execute query and format results
+- [x] Add query validation before execution
+- [x] Implement result formatting (tables, markdown)
+- [x] Add error handling for SQL syntax errors
 
 #### Phase 6: Advanced Queries & Testing
-- [ ] Test with date range queries (months, quarters, years)
-- [ ] Test with hotel-specific filters
-- [ ] Test with guest country/city filters
-- [ ] Test with meal plan comparisons
-- [ ] Verify occupancy and RevPAR calculations are accurate
-- [ ] Test with edge cases (empty results, invalid dates)
+- [x] Test with date range queries (months, quarters, years)
+- [x] Test with hotel-specific filters
+- [x] Test with guest country/city filters
+- [x] Test with meal plan comparisons
+- [x] Verify occupancy and RevPAR calculations are accurate
+- [x] Test with edge cases (empty results, invalid dates)
 
 #### Phase 7: Integration & Error Handling
-- [ ] Integrate SQL agent with WebSocket API
-- [ ] Add comprehensive error handling (connection errors, query errors)
-- [ ] Implement query timeout protection
-- [ ] Add logging for debugging SQL generation
-- [ ] Test end-to-end with WebSocket interface
+- [x] Integrate SQL agent with WebSocket API
+- [x] Add comprehensive error handling (connection errors, query errors)
+- [x] Implement query timeout protection
+- [x] Add logging for debugging SQL generation
+- [x] Test end-to-end with WebSocket interface
 
 #### Phase 8: Optimization & Documentation
 - [ ] Optimize system prompt for better SQL generation
@@ -211,7 +211,7 @@ When you complete a task, reference the commit like this:
 📌 Pending:  4
 🔥 In progress: 0
 ✅ Completed: 0
-🐛 Technical debt: 0
+🐛 Technical debt: 1
 🎓 Workshop Exercises: 3 (Exercise 0, 1, 2)
 ```
 

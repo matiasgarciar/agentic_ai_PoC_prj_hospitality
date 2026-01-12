@@ -14,5 +14,5 @@ agent:
   temperature: 0
 
   # NEW: agent mode
-  mode: "rag"   # simple | rag | sql
+  mode: "sql"   # simple | rag | sql
 
